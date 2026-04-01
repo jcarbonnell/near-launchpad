@@ -4,7 +4,7 @@ const STEPS = [
   {
     num: '01',
     title: 'Submit your repo',
-    body: 'Paste your GitHub URL and founder email. The agent reads your README, extracts your Ideal Customer Profile, and embeds it as a 768-dimensional vector.',
+    body: 'Paste your GitHub URL and founder email. The agent reads your README, identifies your Ideal Customer Profile, and embeds it as a 768-dimensional vector.',
     detail: 'mvp-intake skill → Ollama nomic-embed-text',
   },
   {
@@ -31,7 +31,7 @@ export default function HowItWorks() {
         </h2>
         <p className={styles.sub}>
           No account managers. No weekly calls. A sovereign AI agent running 24/7
-          on dedicated hardware executes your BD — while you keep building.
+          on dedicated hardware executes your Business Development — while you keep building.
         </p>
 
         <div className={styles.steps}>

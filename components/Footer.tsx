@@ -11,8 +11,8 @@ export default function Footer() {
             <span className={styles.bracket}>]</span>
           </span>
           <p className={styles.tagline}>
-            Sovereign BD automation for early-stage MVPs.<br />
-            Powered by IronClaw · NEAR Protocol · OutLayer TEE
+            Sovereign Commercial Node for early-stage startups.<br />
+            Built with IronClaw, the secure alternative to OpenClaw by NEAR AI.
           </p>
           <p className={styles.corp}>
             A{' '}

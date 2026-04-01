@@ -2,11 +2,11 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'NEAR Innovation Launchpad — BD Automation for MVPs',
-  description: 'Autonomous BD agent that validates your MVP with real market signals. 200 leads, 7 days, go/no-go verdict. Powered by NEAR Protocol.',
+  title: 'NEAR Innovation Launchpad — BizDev Automation for early-stage startups',
+  description: 'Sovereign commercial node that validates your MVP with real market signals. 200 leads per campaign, 7 days, go/no-go verdict. Built with IronClaw.',
   openGraph: {
     title: 'NEAR Innovation Launchpad',
-    description: 'BD automation for early-stage MVPs. Powered by a sovereign AI agent on NEAR.',
+    description: 'BizDev Automation for early-stage startups. Built with IronClaw.',
     url: 'https://near-launchpad.com',
     siteName: 'NEAR Innovation Launchpad',
     locale: 'en_US',
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'NEAR Innovation Launchpad',
-    description: 'BD automation for early-stage MVPs.',
+    description: 'BizDev Automation for early-stage startups. Built with IronClaw.',
   },
 }
 

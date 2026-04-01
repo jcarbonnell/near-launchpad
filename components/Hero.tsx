@@ -42,7 +42,7 @@ export default function Hero() {
     <section className={styles.hero}>
       <div className={styles.container}>
         <div className={styles.left}>
-          <p className="section-label fade-up fade-up-1">Sovereign BD agent · NEAR Protocol</p>
+          <p className="section-label fade-up fade-up-1">Sovereign Commercial Node · Built with IronClaw</p>
           <h1 className={`${styles.headline} fade-up fade-up-2`}>
             Your MVP deserves<br />
             <span className={styles.accent}>real market feedback</span><br />
