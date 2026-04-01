@@ -161,6 +161,7 @@
 .termLine { color: #777; animation: fadeUp 0.15s ease forwards; opacity: 0; }
 .termCommand { color: var(--text); }
 .termSuccess { color: var(--green); font-weight: 700; }
+.termComment { color: #555; font-style: italic; }
 
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(4px); }

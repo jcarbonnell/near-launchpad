@@ -220,6 +220,68 @@
   color: var(--green);
 }
 
+/* CSV upload */
+.csvDrop {
+  border: 1px dashed var(--bg-border);
+  border-radius: var(--radius);
+  background: var(--bg-card);
+  transition: border-color 0.2s, background 0.2s;
+  cursor: pointer;
+}
+
+.csvDrop:hover { border-color: var(--green-dim); }
+.csvDropFilled { border-color: var(--green-dim); border-style: solid; background: var(--green-glow); }
+
+.csvLabel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 24px 16px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.csvInput { display: none; }
+
+.csvPrompt {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.csvHint {
+  font-size: 11px;
+  color: var(--text-dim);
+  text-align: center;
+  line-height: 1.6;
+  max-width: 420px;
+}
+
+.csvFileInfo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  font-size: 13px;
+}
+
+.csvIcon { color: var(--green); font-size: 14px; }
+.csvSize { color: var(--text-dim); font-family: var(--mono); font-size: 11px; }
+
+.csvRemove {
+  margin-left: auto;
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  cursor: pointer;
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 2px;
+  transition: color 0.2s;
+}
+.csvRemove:hover { color: #f06060; }
+
 /* Submit */
 .submit {
   width: 100%;

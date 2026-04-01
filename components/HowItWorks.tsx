@@ -4,19 +4,19 @@ const STEPS = [
   {
     num: '01',
     title: 'Submit your repo',
-    body: 'Paste your GitHub URL and founder email. The agent reads your README, identifies your Ideal Customer Profile, and embeds it as a 768-dimensional vector.',
+    body: 'Paste your GitHub URL, your founder email, and optionally a CSV of your own contacts — LinkedIn export, email list, or X followers. The agent reads your README and extracts your Ideal Customer Profile.',
     detail: 'mvp-intake skill → Ollama nomic-embed-text',
   },
   {
     num: '02',
-    title: '200 leads enrolled',
-    body: 'Cosine similarity search across 177,370 indexed contacts finds the people most likely to want your product. Top matches are enrolled in a 7-day outreach sequence.',
-    detail: 'pgvector ICP matching → PostgreSQL',
+    title: 'Leads matched and merged',
+    body: 'Your imported contacts get priority. The agent embeds and indexes them alongside 177,000+ existing contacts. A cosine similarity search fills remaining slots with the closest ICP matches from the base database — so you never launch with an empty list.',
+    detail: 'pgvector ICP matching · ingest_raw.py · PostgreSQL',
   },
   {
     num: '03',
-    title: 'Go/no-go verdict',
-    body: 'Every reply, click, and booking is logged. At campaign end you receive a traction report with reply rate, positive signals, bookings, and a clear recommendation.',
+    title: 'Go/no-go verdict delivered',
+    body: 'Every reply, click, and booking is logged. At campaign end you receive a traction report with reply rate, positive signals, bookings, and a clear recommendation — emailed directly to you.',
     detail: 'OutLayer TEE · NEAR email · traction-report.sh',
   },
 ]
@@ -31,7 +31,7 @@ export default function HowItWorks() {
         </h2>
         <p className={styles.sub}>
           No account managers. No weekly calls. A sovereign AI agent running 24/7
-          on dedicated hardware executes your Business Development — while you keep building.
+          on dedicated hardware executes your BD — while you keep building.
         </p>
 
         <div className={styles.steps}>

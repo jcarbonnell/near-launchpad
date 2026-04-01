@@ -3,16 +3,17 @@ import { useEffect, useRef } from 'react'
 import styles from './Hero.module.css'
 
 const TERMINAL_LINES = [
-  '$ ironclaw intake --repo github.com/jcarbonnell/nova',
+  '$ ironclaw intake --repo github.com/jcarbonnell/nova --csv contacts.csv',
   '  ✓ README fetched (2.4 kB)',
   '  ✓ ICP extracted: privacy-first file-sharing for AI builders',
-  '  ✓ Embedding: 768 dims via nomic-embed-text',
-  '  ✓ 200 leads enrolled (ICP score ≥ 0.72)',
-  '$ ironclaw outreach --campaign b8c600a8 --touch first_contact',
+  '  ✓ CSV: 143 contacts imported + 357 matched from base DB',
+  '  ✓ Embedding: 500 leads × 768 dims via nomic-embed-text',
+  '$ ironclaw outreach --campaign b8c600a8 --day 1',
   '  ✓ sent → jordy@wavestone.com (en)',
   '  ✓ sent → thomas@tarides.com (en)',
   '  ✓ sent → guillaume@tanker.io (en)',
-  '  ... 47 more',
+  '  ... 47 more today',
+  '$ # day 7 of 14 — 350 contacts reached',
   '$ ironclaw report --campaign b8c600a8',
   '  reply_rate: 8.4%  bookings: 2  verdict: GO ✓',
 ]
@@ -49,9 +50,9 @@ export default function Hero() {
             not months of silence.
           </h1>
           <p className={`${styles.sub} fade-up fade-up-3`}>
-            Submit your GitHub repo. In 7 days, a sovereign AI agent contacts 200 matched leads,
-            logs every signal, and delivers a go/no-go verdict — fully automated,
-            running on NEAR.
+            Submit your GitHub repo and your contact list. A sovereign AI agent sends
+            50 targeted emails per day, logs every signal, and delivers a go/no-go
+            verdict — fully automated, no account managers.
           </p>
           <div className={`${styles.actions} fade-up fade-up-4`}>
             <a href="#launch" className={styles.btnPrimary}>Launch your campaign →</a>
@@ -59,17 +60,17 @@ export default function Hero() {
           </div>
           <div className={`${styles.stats} fade-up fade-up-4`}>
             <div className={styles.stat}>
-              <span className={styles.statVal}>177k</span>
-              <span className={styles.statLabel}>leads indexed</span>
+              <span className={styles.statVal}>50/day</span>
+              <span className={styles.statLabel}>targeted emails</span>
             </div>
             <div className={styles.statDivider} />
             <div className={styles.stat}>
-              <span className={styles.statVal}>~$0.001</span>
-              <span className={styles.statLabel}>per email sent</span>
+              <span className={styles.statVal}>177k+</span>
+              <span className={styles.statLabel}>indexed contacts</span>
             </div>
             <div className={styles.statDivider} />
             <div className={styles.stat}>
-              <span className={styles.statVal}>7 days</span>
+              <span className={styles.statVal}>14 days</span>
               <span className={styles.statLabel}>to verdict</span>
             </div>
           </div>

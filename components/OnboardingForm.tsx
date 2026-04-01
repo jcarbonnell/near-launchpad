@@ -8,18 +8,18 @@ const TIERS = [
     name: 'Curious',
     price: '$30',
     near: '~30 NEAR',
-    leads: '100 leads',
+    leads: '50 emails/day',
     days: '7 days',
-    desc: 'First outreach only. One ICP. Go/no-go verdict.',
+    desc: 'Up to 350 contacts. First outreach only. Go/no-go verdict by email.',
   },
   {
     id: 'confident',
     name: 'Confident',
     price: '$200',
     near: '~200 NEAR',
-    leads: '300 leads',
+    leads: '50→100 emails/day',
     days: '14 days',
-    desc: '3 ICP variants A/B tested. Full sequence. Priority support.',
+    desc: 'Up to 1,000 contacts. 3-step sequence. A/B ICP variants. Priority support.',
     featured: true,
   },
   {
@@ -29,7 +29,7 @@ const TIERS = [
     near: 'Contact us',
     leads: 'Unlimited',
     days: 'Monthly',
-    desc: 'Continuous BD. LinkedIn + email + X. Payment channel.',
+    desc: 'Continuous BD. Email + LinkedIn + X. Payment channel. Dedicated ICP tuning.',
   },
 ]
 
@@ -39,6 +39,7 @@ export default function OnboardingForm() {
   const [step, setStep] = useState<Step>('tier')
   const [tier, setTier] = useState('confident')
   const [form, setForm] = useState({ github_url: '', founder_email: '' })
+  const [csvFile, setCsvFile] = useState<File | null>(null)
   const [walletId, setWalletId] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -63,14 +64,16 @@ export default function OnboardingForm() {
     setLoading(true)
     setError('')
     try {
+      const fd = new FormData()
+      fd.append('github_url', form.github_url)
+      fd.append('founder_email', form.founder_email)
+      fd.append('tier', tier)
+      if (walletId) fd.append('wallet_id', walletId)
+      if (csvFile) fd.append('contacts_csv', csvFile)
+
       const res = await fetch('/api/intake', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...form,
-          tier,
-          wallet_id: walletId,
-        }),
+        body: fd,
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Submission failed')
@@ -162,6 +165,51 @@ export default function OnboardingForm() {
                     required
                     disabled={loading}
                   />
+                </div>
+              </div>
+
+              <div className={styles.field}>
+                <label className={styles.label}>
+                  Contact list <span className="muted">(optional — CSV from LinkedIn, X, or custom)</span>
+                </label>
+                <div
+                  className={`${styles.csvDrop} ${csvFile ? styles.csvDropFilled : ''}`}
+                  onDragOver={e => e.preventDefault()}
+                  onDrop={e => {
+                    e.preventDefault()
+                    const file = e.dataTransfer.files[0]
+                    if (file && file.name.endsWith('.csv')) setCsvFile(file)
+                  }}
+                >
+                  {csvFile ? (
+                    <div className={styles.csvFileInfo}>
+                      <span className={styles.csvIcon}>✓</span>
+                      <span className="mono">{csvFile.name}</span>
+                      <span className={styles.csvSize}>({(csvFile.size / 1024).toFixed(0)} KB)</span>
+                      <button
+                        type="button"
+                        className={styles.csvRemove}
+                        onClick={() => setCsvFile(null)}
+                      >✕</button>
+                    </div>
+                  ) : (
+                    <label className={styles.csvLabel}>
+                      <input
+                        type="file"
+                        accept=".csv"
+                        className={styles.csvInput}
+                        onChange={e => setCsvFile(e.target.files?.[0] ?? null)}
+                        disabled={loading}
+                      />
+                      <span className={styles.csvPrompt}>
+                        Drop your .csv here or <span className="green">browse</span>
+                      </span>
+                      <span className={styles.csvHint}>
+                        Accepts LinkedIn exports, email lists, or any CSV with email column.
+                        Your contacts get priority — the rest are filled from our 177k+ base.
+                      </span>
+                    </label>
+                  )}
                 </div>
               </div>
 
