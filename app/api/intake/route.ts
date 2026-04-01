@@ -4,7 +4,7 @@ export async function POST(req: NextRequest) {
   try {
     const contentType = req.headers.get('content-type') || ''
     let github_url = '', founder_email = '', tier = '', wallet_id = ''
-    let csvBuffer: Buffer | null = null
+    let csvArrayBuffer: ArrayBuffer | null = null
     let csvFilename = ''
 
     if (contentType.includes('multipart/form-data')) {
@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
       const csvFile = formData.get('contacts_csv') as File | null
       if (csvFile && csvFile.size > 0) {
         const buf = await csvFile.arrayBuffer()
-        csvBuffer = Buffer.from(buf)
+        csvArrayBuffer = buf
         csvFilename = csvFile.name
       }
     } else {
@@ -39,7 +39,7 @@ export async function POST(req: NextRequest) {
     if (!github_url.startsWith('https://github.com/')) {
       return NextResponse.json({ error: 'URL must be a GitHub repository' }, { status: 400 })
     }
-    if (csvBuffer && csvBuffer.length > 10 * 1024 * 1024) {
+    if (csvArrayBuffer && csvArrayBuffer.byteLength > 10 * 1024 * 1024) {
       return NextResponse.json({ error: 'CSV file too large (max 10MB)' }, { status: 400 })
     }
 
@@ -64,8 +64,8 @@ export async function POST(req: NextRequest) {
     fd.append('submitted_at', new Date().toISOString())
     fd.append('source', 'near-launchpad.com')
 
-    if (csvBuffer) {
-      const blob = new Blob([csvBuffer], { type: 'text/csv' })
+    if (csvArrayBuffer) {
+      const blob = new Blob([new Uint8Array(csvArrayBuffer)], { type: 'text/csv' })
       fd.append('contacts_csv', blob, csvFilename || 'contacts.csv')
     }
 
@@ -81,7 +81,8 @@ export async function POST(req: NextRequest) {
       success: true,
       message: 'Campaign intake received. Processing will begin shortly.',
       ref,
-      csv_included: !!csvBuffer,
+      csv_included: !!csvArrayBuffer,
+
     })
   } catch (err) {
     console.error('[intake] error:', err)
