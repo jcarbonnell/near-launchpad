@@ -6,9 +6,7 @@ Built with Next.js 14 (App Router), deployed on Vercel.
 
 ## Stack
 
-- **Framework**: Next.js 14 App Router
-- **Deployment**: Vercel (CivicTech OU account)
-- **Domain**: near-launchpad.com (OVH)
+- **Frontend**: https://near-launchpad.com
 - **Backend**: IronClaw sovereign node on Raspberry Pi 5
 
 ## Setup
