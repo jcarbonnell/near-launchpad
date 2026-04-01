@@ -7,7 +7,7 @@ Built with Next.js 14 (App Router), deployed on Vercel.
 ## Stack
 
 - **Frontend**: https://near-launchpad.com
-- **Backend**: IronClaw sovereign node on Raspberry Pi 5
+- **Backend**: [IronClaw - sovereign commercial node on Raspberry Pi 5](https://docs.google.com/presentation/d/1wYVVrp2ILZnFWIkTQ3x0S2NQmgej94HEgpYMPWQO9ng/edit?usp=sharing)
 
 ## Setup
 
