@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react'
 import styles from './Hero.module.css'
 
 const TERMINAL_LINES = [
-  '$ ironclaw intake --repo github.com/jcarbonnell/nova --csv contacts.csv',
+  '$ ironclaw processing intake: github.com/jcarbonnell/nova --csv contacts.csv',
   '  ✓ README fetched (2.4 kB)',
   '  ✓ ICP extracted: privacy-first file-sharing for AI builders',
   '  ✓ CSV: 143 contacts imported + 357 matched from base DB',

@@ -39,7 +39,7 @@ export default function OnboardingForm() {
   const [step, setStep] = useState<Step>('tier')
   const [tier, setTier] = useState('confident')
   const [form, setForm] = useState({ github_url: '', founder_email: '' })
-  const [csvFile, setCsvFile] = useState<File | null>(null)
+  const [csvFiles, setCsvFiles] = useState<File[]>([])
   const [walletId, setWalletId] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -69,7 +69,7 @@ export default function OnboardingForm() {
       fd.append('founder_email', form.founder_email)
       fd.append('tier', tier)
       if (walletId) fd.append('wallet_id', walletId)
-      if (csvFile) fd.append('contacts_csv', csvFile)
+      csvFiles.forEach((f, i) => fd.append(`contacts_csv_${i}`, f))
 
       const res = await fetch('/api/intake', {
         method: 'POST',
@@ -173,23 +173,23 @@ export default function OnboardingForm() {
                   Contact list <span className="muted">(optional — CSV from LinkedIn, X, or custom)</span>
                 </label>
                 <div
-                  className={`${styles.csvDrop} ${csvFile ? styles.csvDropFilled : ''}`}
+                  className={`${styles.csvDrop} ${csvFiles ? styles.csvDropFilled : ''}`}
                   onDragOver={e => e.preventDefault()}
                   onDrop={e => {
                     e.preventDefault()
-                    const file = e.dataTransfer.files[0]
-                    if (file && file.name.endsWith('.csv')) setCsvFile(file)
+                    const files = Array.from(e.dataTransfer.files).filter(f => f.name.endsWith('.csv'))
+                    if (files.length > 0) setCsvFiles(prev => [...prev, ...files])
                   }}
                 >
-                  {csvFile ? (
+                  {csvFiles.length > 0 ? (
                     <div className={styles.csvFileInfo}>
                       <span className={styles.csvIcon}>✓</span>
-                      <span className="mono">{csvFile.name}</span>
-                      <span className={styles.csvSize}>({(csvFile.size / 1024).toFixed(0)} KB)</span>
+                      <span className="mono">{csvFiles.length} file{csvFiles.length > 1 ? 's' : ''} selected</span>
+                      <span className={styles.csvSize}>({csvFiles.map(f => f.name).join(', ')})</span>
                       <button
                         type="button"
                         className={styles.csvRemove}
-                        onClick={() => setCsvFile(null)}
+                        onClick={() => setCsvFiles([])}
                       >✕</button>
                     </div>
                   ) : (
@@ -197,16 +197,17 @@ export default function OnboardingForm() {
                       <input
                         type="file"
                         accept=".csv"
+                        multiple
                         className={styles.csvInput}
-                        onChange={e => setCsvFile(e.target.files?.[0] ?? null)}
+                        onChange={e => setCsvFiles(Array.from(e.target.files ?? []))}
                         disabled={loading}
                       />
                       <span className={styles.csvPrompt}>
                         Drop your .csv here or <span className="green">browse</span>
                       </span>
                       <span className={styles.csvHint}>
-                        Accepts LinkedIn exports, email lists, or any CSV with email column.
-                        Your contacts get priority — the rest are filled from our 177k+ base.
+                        For best reply rates, upload your own contacts — LinkedIn, X, or Google export as CSV. 
+                        Your contacts get priority over our 177k+ database, and people who already know you convert better.
                       </span>
                     </label>
                   )}

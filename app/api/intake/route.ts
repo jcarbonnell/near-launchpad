@@ -7,17 +7,21 @@ export async function POST(req: NextRequest) {
     let csvArrayBuffer: ArrayBuffer | null = null
     let csvFilename = ''
 
+    let formData: FormData | null = null
     if (contentType.includes('multipart/form-data')) {
-      const formData = await req.formData()
+      formData = await req.formData()
       github_url    = formData.get('github_url') as string || ''
       founder_email = formData.get('founder_email') as string || ''
       tier          = formData.get('tier') as string || ''
       wallet_id     = formData.get('wallet_id') as string || ''
-      const csvFile = formData.get('contacts_csv') as File | null
-      if (csvFile && csvFile.size > 0) {
-        const buf = await csvFile.arrayBuffer()
-        csvArrayBuffer = buf
-        csvFilename = csvFile.name
+      const csvFiles: File[] = []
+      for (let i = 0; i < 10; i++) {
+        const f = formData.get(`contacts_csv_${i}`) as File | null
+        if (f && f.size > 0) csvFiles.push(f)
+      }
+      if (csvFiles.length > 0) {
+        csvArrayBuffer = await csvFiles[0].arrayBuffer()
+        csvFilename = csvFiles[0].name
       }
     } else {
       const body = await req.json()
@@ -64,9 +68,13 @@ export async function POST(req: NextRequest) {
     fd.append('submitted_at', new Date().toISOString())
     fd.append('source', 'near-launchpad.com')
 
-    if (csvArrayBuffer) {
-      const blob = new Blob([new Uint8Array(csvArrayBuffer)], { type: 'text/csv' })
-      fd.append('contacts_csv', blob, csvFilename || 'contacts.csv')
+    if (formData) {
+      for (let i = 0; i < 10; i++) {
+        const f = formData.get(`contacts_csv_${i}`) as File | null
+        if (!f || f.size === 0) break
+        const buf = await f.arrayBuffer()
+        fd.append(`contacts_csv_${i}`, new Blob([new Uint8Array(buf)], { type: 'text/csv' }), f.name)
+      }
     }
 
     const piRes = await fetch(webhookUrl, {
