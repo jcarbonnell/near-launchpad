@@ -17,19 +17,19 @@ const TIERS = [
     name: 'Confident',
     price: '$200',
     near: '~200 NEAR',
-    leads: '50→100 emails/day',
+    leads: '100 emails/day + LinkedIn + X outreach',
     days: '14 days',
-    desc: 'Up to 1,000 contacts. 3-step sequence. A/B ICP variants. Priority support.',
+    desc: 'Up to 1,000 contacts. 3-step sequence. A/B testing ICP variants. Priority support.',
     featured: true,
   },
   {
-    id: 'addict',
-    name: 'Addict',
+    id: 'determined',
+    name: 'Determined',
     price: 'Custom',
     near: 'Contact us',
     leads: 'Unlimited',
     days: 'Monthly',
-    desc: 'Continuous BD. Email + LinkedIn + X. Payment channel. Dedicated ICP tuning.',
+    desc: 'Continuous Business Development. Email + LinkedIn + X. Payment channel. Dedicated ICP tuning.',
   },
 ]
 
@@ -57,8 +57,8 @@ export default function OnboardingForm() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    if (tier === 'addict') {
-      window.location.href = 'mailto:near-launchpad@near.email?subject=Addict Tier Inquiry'
+    if (tier === 'determined') {
+      window.location.href = 'mailto:near-launchpad@near.email?subject=Determined Tier Inquiry'
       return
     }
     setLoading(true)
@@ -253,7 +253,7 @@ export default function OnboardingForm() {
               >
                 {loading ? (
                   <span className={styles.spinner}>Processing...</span>
-                ) : tier === 'addict' ? (
+                ) : tier === 'determined' ? (
                   'Contact us for pricing →'
                 ) : (
                   `Launch ${TIERS.find(t => t.id === tier)?.name} campaign →`
