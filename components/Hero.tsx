@@ -51,7 +51,7 @@ export default function Hero() {
           </h1>
           <p className={`${styles.sub} fade-up fade-up-3`}>
             Submit your GitHub repo and your contact list. A sovereign AI agent sends
-            50 targeted emails per day, logs every signal, and delivers a go/no-go
+            batches of targeted emails every day, logs every signal, and delivers a go/no-go
             verdict — fully automated, no account managers.
           </p>
           <div className={`${styles.actions} fade-up fade-up-4`}>
@@ -60,7 +60,7 @@ export default function Hero() {
           </div>
           <div className={`${styles.stats} fade-up fade-up-4`}>
             <div className={styles.stat}>
-              <span className={styles.statVal}>50/day</span>
+              <span className={styles.statVal}>50+/day</span>
               <span className={styles.statLabel}>targeted emails</span>
             </div>
             <div className={styles.statDivider} />
