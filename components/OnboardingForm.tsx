@@ -19,7 +19,7 @@ const TIERS = [
     near: '~200 NEAR',
     leads: '100 emails/day + LinkedIn + X outreach',
     days: '14 days',
-    desc: 'Up to 1,000 contacts. 3-step sequence. A/B testing ICP variants. Priority support.',
+    desc: 'Up to 1,000 contacts. 3-step sequence. A/B testing Ideal Customer Profile variants. Priority support.',
     featured: true,
   },
   {
@@ -29,7 +29,7 @@ const TIERS = [
     near: 'Contact us',
     leads: 'Unlimited',
     days: 'Monthly',
-    desc: 'Continuous Business Development. Email + LinkedIn + X. Payment channel. Dedicated ICP tuning.',
+    desc: 'Continuous Business Development. Email + LinkedIn + X. Payment channel. Dedicated Ideal Customer Profile tuning.',
   },
 ]
 

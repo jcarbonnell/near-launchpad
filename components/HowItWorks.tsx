@@ -10,8 +10,8 @@ const STEPS = [
   {
     num: '02',
     title: 'Leads matched and merged',
-    body: 'Your imported contacts get priority. The agent embeds and indexes them alongside 177,000+ existing contacts. A cosine similarity search fills remaining slots with the closest ICP matches from the base database — so you never launch with an empty list.',
-    detail: 'pgvector ICP matching · ingest_raw.py · PostgreSQL',
+    body: 'Your imported contacts get priority. The agent embeds and indexes them alongside 177,000+ existing contacts. A cosine similarity search fills remaining slots with the closest Ideal Customer Profile matches from the base database — so you never launch with an empty list.',
+    detail: 'pgvector Ideal Customer Profile matching · ingest_raw.py · PostgreSQL',
   },
   {
     num: '03',
@@ -59,7 +59,7 @@ export default function HowItWorks() {
             <div className={styles.verdictItem}>
               <span className={`${styles.verdictLabel} ${styles.yellow}`}>INCONCLUSIVE</span>
               <span className={styles.verdictRule}>reply_rate &gt; 2% OR positive_signals ≥ 2</span>
-              <span className={styles.verdictAction}>Continue. Refine ICP. Run follow-ups.</span>
+              <span className={styles.verdictAction}>Continue. Refine Ideal Customer Profile. Run follow-ups.</span>
             </div>
             <div className={styles.verdictDivider} />
             <div className={styles.verdictItem}>

@@ -5,7 +5,7 @@ import styles from './Hero.module.css'
 const TERMINAL_LINES = [
   '$ ironclaw processing intake: github.com/jcarbonnell/nova --csv contacts.csv',
   '  ✓ README fetched (2.4 kB)',
-  '  ✓ ICP extracted: privacy-first file-sharing for AI builders',
+  '  ✓ Ideal Customer Profile extracted: privacy-first file-sharing for AI builders',
   '  ✓ CSV: 143 contacts imported + 357 matched from base DB',
   '  ✓ Embedding: 500 leads × 768 dims via nomic-embed-text',
   '$ ironclaw outreach --campaign b8c600a8 --day 1',
