@@ -14,11 +14,6 @@ export default function Footer() {
             Sovereign Commercial Node for early-stage startups.<br />
             Built with IronClaw, the secure alternative to OpenClaw by NEAR AI.
           </p>
-          <p className={styles.corp}>
-            A{' '}
-            <a href="https://github.com/jcarbonnell" target="_blank" rel="noopener">CivicTech OU</a>
-            {' '}project · Barcelona
-          </p>
         </div>
 
         <div className={styles.links}>

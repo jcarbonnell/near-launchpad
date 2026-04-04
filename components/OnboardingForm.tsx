@@ -17,7 +17,7 @@ const TIERS = [
     name: 'Confident',
     price: '$200',
     near: '~200 NEAR',
-    leads: '100 emails/day + LinkedIn + X outreach',
+    leads: '100 emails/day + X outreach',
     days: '14 days',
     desc: 'Up to 1,000 contacts. 3-step sequence. A/B testing Ideal Customer Profile variants. Priority support.',
     featured: true,
@@ -29,7 +29,7 @@ const TIERS = [
     near: 'Contact us',
     leads: 'Unlimited',
     days: 'Monthly',
-    desc: 'Continuous Business Development. Email + LinkedIn + X. Payment channel. Dedicated Ideal Customer Profile tuning.',
+    desc: 'Continuous Business Development. Enriched Email + X outreach + Social Media content automation. Payment channel. Dedicated Ideal Customer Profile tuning.',
   },
 ]
 
@@ -170,7 +170,7 @@ export default function OnboardingForm() {
 
               <div className={styles.field}>
                 <label className={styles.label}>
-                  Contact list <span className="muted">(optional — CSV from LinkedIn, X, or custom)</span>
+                  Contact list <span className="muted">(optional — Google contacts, mailbox data export... or custom)</span>
                 </label>
                 <div
                   className={`${styles.csvDrop} ${csvFiles ? styles.csvDropFilled : ''}`}
@@ -206,8 +206,8 @@ export default function OnboardingForm() {
                         Drop your .csv here or <span className="green">browse</span>
                       </span>
                       <span className={styles.csvHint}>
-                        For best reply rates, upload your own contacts — LinkedIn, X, or Google export as CSV. 
-                        Your contacts get priority over our 177k+ database, and people who already know you convert better.
+                        For best reply rates, upload your own contacts as CSV. 
+                        Your contacts get priority over our 177k+ database: people who already know you convert better.
                       </span>
                     </label>
                   )}
@@ -216,7 +216,7 @@ export default function OnboardingForm() {
 
               <div className={styles.field}>
                 <label className={styles.label}>
-                  NEAR wallet <span className="muted">(optional for now — required for payment)</span>
+                  NEAR wallet <span className="muted">(required for payment)</span>
                 </label>
                 {walletId ? (
                   <div className={styles.walletConnected}>
