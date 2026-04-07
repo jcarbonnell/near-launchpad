@@ -173,6 +173,6 @@
     grid-template-columns: 1fr;
     gap: 48px;
   }
-  .right { order: -1; }
+  .right { order: 1; }
   .terminal { max-width: 540px; margin: 0 auto; }
 }

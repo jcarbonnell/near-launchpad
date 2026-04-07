@@ -58,7 +58,7 @@ export default function OnboardingForm() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     if (tier === 'determined') {
-      window.location.href = 'mailto:near-launchpad@near.email?subject=Determined Tier Inquiry'
+      window.location.href = 'mailto:near-launchpad@near.email?subject=Determined%20Tier%20Inquiry&body=Hi%2C%0A%0AI%27m%20interested%20in%20the%20Determined%20tier.%0A%0AProject%3A%20%5Byour%20GitHub%20URL%5D%0ATeam%20size%3A%0AMonthly%20budget%3A%0A%0AThanks'
       return
     }
     setLoading(true)
