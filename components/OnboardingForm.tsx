@@ -57,10 +57,6 @@ export default function OnboardingForm() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    if (tier === 'determined') {
-      window.location.href = 'mailto:near-launchpad@near.email?subject=Determined%20Tier%20Inquiry&body=Hi%2C%0A%0AI%27m%20interested%20in%20the%20Determined%20tier.%0A%0AProject%3A%20%5Byour%20GitHub%20URL%5D%0ATeam%20size%3A%0AMonthly%20budget%3A%0A%0AThanks'
-      return
-    }
     setLoading(true)
     setError('')
     try {
@@ -247,19 +243,27 @@ export default function OnboardingForm() {
 
               {error && <p className={styles.error}>{error}</p>}
 
-              <button
-                type="submit"
-                className={styles.submit}
-                disabled={loading}
-              >
-                {loading ? (
-                  <span className={styles.spinner}>Processing...</span>
-                ) : tier === 'determined' ? (
-                  'Contact us for pricing →'
-                ) : (
-                  `Launch ${TIERS.find(t => t.id === tier)?.name} campaign →`
-                )}
-              </button>
+              {tier === 'determined' ? (
+                <a
+                  href="mailto:near-launchpad@near.email?subject=Determined%20Plan%20Inquiry&body=Hi%2C%0A%0AI%27m%20interested%20in%20the%20Determined%20plan.%0A%0AProject%3A%20%5Byour%20GitHub%20URL%5D%0ABudget%3A%20%5Byour%20budget%5D%0ATeam%20size%3A%20%5Byour%20team%20size%5D%0A%0ATell%20us%20more%20about%20your%20project%3A"
+                  className={styles.submit}
+                  style={{ textAlign: 'center', display: 'block', textDecoration: 'none' }}
+                >
+                  Contact us for pricing →
+                </a>
+              ) : (
+                <button
+                  type="submit"
+                  className={styles.submit}
+                  disabled={loading}
+                >
+                  {loading ? (
+                    <span className={styles.spinner}>Processing...</span>
+                  ) : (
+                    `Launch ${TIERS.find(t => t.id === tier)?.name} campaign →`
+                  )}
+                </button>
+              )}
 
               <p className={styles.legal}>
                 By submitting you agree that outreach is sent on your behalf from{' '}
