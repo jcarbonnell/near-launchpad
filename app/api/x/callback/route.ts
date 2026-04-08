@@ -109,7 +109,10 @@ export async function GET(req: NextRequest) {
   const expiresAt = new Date(Date.now() + tokenData.expires_in * 1000).toISOString()
 
   // Send to Pi for encrypted storage
-  const webhookUrl = process.env.WEBHOOK_URL?.replace('/intake', '/x-auth')
+  const baseWebhook = process.env.WEBHOOK_URL?.replace(/\/intake$/, '') || ''
+  const webhookUrl = baseWebhook ? `${baseWebhook}/x-auth` : ''
+  console.log('[x/callback] posting to:', webhookUrl, 'campaign:', campaign_id)
+  
   if (!webhookUrl) {
     console.error('[x/callback] WEBHOOK_URL not configured')
     return NextResponse.redirect(`${baseUrl}/?x_error=webhook_not_configured`)
