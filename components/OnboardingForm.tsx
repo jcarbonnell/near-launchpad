@@ -241,6 +241,29 @@ export default function OnboardingForm() {
                 )}
               </div>
 
+              {/* X account connect — Convinced and Determined tiers only */}
+              {(tier === 'convinced' || tier === 'determined') && (
+                <div className={styles.field}>
+                  <label className={styles.label}>
+                    X account <span className="muted">(required for X outreach)</span>
+                  </label>
+                  <p className={styles.hint}>
+                    Authorise the Launchpad to follow and DM leads on your behalf.
+                    You can do this after submitting if you prefer.
+                  </p>
+                  <a
+                    href={`/api/x/auth?campaign_id=pending`}
+                    className={styles.walletBtn}
+                    style={{ display: 'inline-flex', textDecoration: 'none' }}
+                  >
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                      <path d="M12.6 2H14.7L10.1 7.3L15.5 14H11.3L8.1 9.8L4.4 14H2.3L7.2 8.4L2 2H6.3L9.2 5.8L12.6 2ZM11.9 12.8H13.1L5.7 3.2H4.4L11.9 12.8Z"/>
+                    </svg>
+                    Connect X account →
+                  </a>
+                </div>
+              )}
+
               {error && <p className={styles.error}>{error}</p>}
 
               {tier === 'determined' ? (
