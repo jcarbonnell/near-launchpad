@@ -56,6 +56,7 @@ export async function POST(req: NextRequest) {
         success: true,
         message: 'Intake received. We will contact you within 24 hours.',
         ref,
+        campaign_id: null,
       })
     }
 
@@ -85,12 +86,14 @@ export async function POST(req: NextRequest) {
 
     if (!piRes.ok) throw new Error(`Pi webhook returned ${piRes.status}`)
 
+    const piData = await piRes.json().catch(() => ({}))
+
     return NextResponse.json({
       success: true,
       message: 'Campaign intake received. Processing will begin shortly.',
       ref,
       csv_included: !!csvArrayBuffer,
-
+      campaign_id: piData.campaign_id || null,
     })
   } catch (err) {
     console.error('[intake] error:', err)

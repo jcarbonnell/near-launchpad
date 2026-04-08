@@ -44,6 +44,7 @@ export default function OnboardingForm() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [ref, setRef] = useState('')
+  const [campaignId, setCampaignId] = useState<string | null>(null)
 
   async function connectWallet() {
     // Placeholder — full wallet selector integration in v2
@@ -74,6 +75,7 @@ export default function OnboardingForm() {
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Submission failed')
       setRef(data.ref)
+      setCampaignId(data.campaign_id || null)
       setStep('success')
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.')
@@ -103,6 +105,23 @@ export default function OnboardingForm() {
               Track your traction report via{' '}
               <a href="mailto:near-launchpad@near.email">near-launchpad@near.email</a>.
             </p>
+            {(tier === 'confident' || tier === 'determined') && campaignId && (
+              <a
+                href={`/api/x/auth?campaign_id=${campaignId}`}
+                className={styles.walletBtn}
+                style={{ display: 'inline-flex', textDecoration: 'none', marginTop: '16px' }}
+              >
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                  <path d="M12.6 2H14.7L10.1 7.3L15.5 14H11.3L8.1 9.8L4.4 14H2.3L7.2 8.4L2 2H6.3L9.2 5.8L12.6 2ZM11.9 12.8H13.1L5.7 3.2H4.4L11.9 12.8Z"/>
+                </svg>
+                Connect your X account →
+              </a>
+            )}
+            {(tier === 'confident' || tier === 'determined') && !campaignId && (
+              <p className={styles.hint} style={{ marginTop: '12px' }}>
+                To enable X outreach, email <a href="mailto:near-launchpad@near.email">near-launchpad@near.email</a> with your reference.
+              </p>
+            )}
           </div>
         ) : (
           <div className={styles.formWrap}>
