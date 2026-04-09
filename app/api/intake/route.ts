@@ -4,6 +4,7 @@ export async function POST(req: NextRequest) {
   try {
     const contentType = req.headers.get('content-type') || ''
     let github_url = '', founder_email = '', tier = '', wallet_id = ''
+    let tx_hash = '', near_amount = ''
     let csvArrayBuffer: ArrayBuffer | null = null
     let csvFilename = ''
 
@@ -14,6 +15,8 @@ export async function POST(req: NextRequest) {
       founder_email = formData.get('founder_email') as string || ''
       tier          = formData.get('tier') as string || ''
       wallet_id     = formData.get('wallet_id') as string || ''
+      tx_hash    = formData.get('tx_hash') as string || ''
+      near_amount = formData.get('near_amount') as string || ''
       const csvFiles: File[] = []
       for (let i = 0; i < 10; i++) {
         const f = formData.get(`contacts_csv_${i}`) as File | null
@@ -29,6 +32,8 @@ export async function POST(req: NextRequest) {
       founder_email = body.founder_email || ''
       tier          = body.tier || ''
       wallet_id     = body.wallet_id || ''
+      tx_hash     = body.tx_hash || ''
+      near_amount = body.near_amount || ''
     }
 
     if (!github_url || !founder_email || !tier) {
@@ -65,6 +70,8 @@ export async function POST(req: NextRequest) {
     fd.append('founder_email', founder_email)
     fd.append('tier', tier)
     fd.append('wallet_id', wallet_id)
+    fd.append('tx_hash', tx_hash)
+    fd.append('near_amount', near_amount)
     fd.append('ref', ref)
     fd.append('submitted_at', new Date().toISOString())
     fd.append('source', 'near-launchpad.com')

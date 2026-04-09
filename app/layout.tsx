@@ -1,8 +1,9 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import { WalletProvider } from '@/components/WalletProvider'
 
 export const metadata: Metadata = {
-  title: 'NEAR Innovation Launchpad — BizDev Agent for early-stage startups',
+  title: 'NEAR Innovation Launchpad — Business Development automation for early-stage startups',
   description: 'Sovereign commercial node that validates your MVP with real market signals. 200 leads per campaign, 7 days, go/no-go verdict. Built with IronClaw.',
   openGraph: {
     title: 'NEAR Innovation Launchpad',
@@ -26,7 +27,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <WalletProvider>
+          {children}
+        </WalletProvider>
+      </body>
     </html>
   )
 }

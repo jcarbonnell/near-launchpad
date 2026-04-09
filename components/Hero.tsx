@@ -60,8 +60,8 @@ export default function Hero() {
           </div>
           <div className={`${styles.stats} fade-up fade-up-4`}>
             <div className={styles.stat}>
-              <span className={styles.statVal}>50+/day</span>
-              <span className={styles.statLabel}>targeted emails</span>
+              <span className={styles.statVal}>100+/day</span>
+              <span className={styles.statLabel}>targeted leads</span>
             </div>
             <div className={styles.statDivider} />
             <div className={styles.stat}>
