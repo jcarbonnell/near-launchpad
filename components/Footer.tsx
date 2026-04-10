@@ -20,7 +20,7 @@ export default function Footer() {
           <div className={styles.linkGroup}>
             <span className={styles.linkLabel}>Contact</span>
             <a href="mailto:near-launchpad@near.email">near-launchpad@near.email</a>
-            <a href="https://near.social" target="_blank" rel="noopener">NEAR Social</a>
+            <a href="https://near.social/mob.near/widget/ProfilePage?accountId=near-launchpad.near" target="_blank" rel="noopener">NEAR Social</a>
           </div>
           <div className={styles.linkGroup}>
             <span className={styles.linkLabel}>Stack</span>
