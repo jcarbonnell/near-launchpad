@@ -41,7 +41,7 @@ export default function Footer() {
         <span className={styles.sep}>·</span>
         <span>near-launchpad@near.email</span>
         <span className={styles.sep}>·</span>
-        <span className={styles.dim}>v0.1.0 · April 2026</span>
+        <span className={styles.dim}>v0.3.0 · © CivicTech OÜ · 2026</span>
       </div>
     </footer>
   )
