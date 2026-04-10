@@ -2,6 +2,8 @@
 import { useState } from 'react'
 import { useWallet } from './WalletProvider'
 import styles from './OnboardingForm.module.css'
+import CampaignStatus from './CampaignStatus'
+import { saveCampaign } from './CampaignList'
 
 const TIERS = [
   {
@@ -105,7 +107,17 @@ export default function OnboardingForm() {
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Submission failed')
       setRef(data.ref)
-      setCampaignId(data.campaign_id || null)
+      const cid = data.campaign_id || null
+      setCampaignId(cid)
+      if (cid) {
+        saveCampaign({
+          campaign_id: cid,
+          product_name: form.github_url.replace('https://github.com/', '').split('/')[1] || 'Campaign',
+          tier,
+          submitted_at: new Date().toISOString(),
+        })
+        window.dispatchEvent(new StorageEvent('storage', { key: 'nl_campaigns' }))
+      }
       setStep('success')
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : 'Transaction failed'
@@ -171,6 +183,7 @@ export default function OnboardingForm() {
                 To enable X outreach, email <a href="mailto:near-launchpad@near.email">near-launchpad@near.email</a> with your reference.
               </p>
             )}
+            {campaignId && <CampaignStatus campaignId={campaignId} />}
           </div>
         )}
 
