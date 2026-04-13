@@ -4,6 +4,7 @@ import { useWallet } from './WalletProvider'
 import styles from './OnboardingForm.module.css'
 import CampaignStatus from './CampaignStatus'
 import { saveCampaign } from './CampaignList'
+import { actionCreators } from '@near-js/transactions'
 
 const TIERS = [
   {
@@ -81,12 +82,10 @@ export default function OnboardingForm() {
       const wallet = await selector.wallet()
       const outcome = await wallet.signAndSendTransaction({
         receiverId: 'near-launchpad.near',
-        actions: [{
-          type: 'transfer',
-          params: { deposit: selectedTier.nearAmount! },
-        } as any],
-        callbackUrl: undefined,
-      } as any)
+        actions: [
+          actionCreators.transfer(BigInt(selectedTier.nearAmount!))
+        ],
+      })
       const hash =
         (outcome as { transaction?: { hash?: string } })?.transaction?.hash ??
         (outcome as { transaction_outcome?: { id?: string } })?.transaction_outcome?.id ??
