@@ -40,13 +40,13 @@ export function WalletProvider({ children }: { children: ReactNode }) {
       const { setupModal } = await import('@near-wallet-selector/modal-ui')
       const { setupMyNearWallet } = await import('@near-wallet-selector/my-near-wallet')
       const { setupHereWallet } = await import('@near-wallet-selector/here-wallet')
-      const { setupBitteWallet } = await import('@near-wallet-selector/bitte-wallet')
+      const { setupHotWallet } = await import('@near-wallet-selector/hot-wallet')
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const modules: any[] = [
         setupMyNearWallet(),
         setupHereWallet(),
-        setupBitteWallet(),
+        setupHotWallet(),
       ]
 
       const _selector = await setupWalletSelector({
