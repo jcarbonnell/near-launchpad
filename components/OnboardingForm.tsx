@@ -82,7 +82,7 @@ export default function OnboardingForm() {
       const outcome = await wallet.signAndSendTransaction({
         receiverId: 'near-launchpad.near',
         actions: [{
-          type: 'Transfer',
+          type: 'transfer',
           params: { deposit: selectedTier.nearAmount! },
         } as any],
         callbackUrl: undefined,
