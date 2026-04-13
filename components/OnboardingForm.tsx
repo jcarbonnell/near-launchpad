@@ -83,7 +83,7 @@ export default function OnboardingForm() {
         receiverId: 'near-launchpad.near',
         actions: [{
           type: 'Transfer',
-          params: {},
+          params: { deposit: selectedTier.nearAmount! },
         } as any],
         callbackUrl: undefined,
       } as any)
@@ -101,7 +101,7 @@ export default function OnboardingForm() {
           tier,
           wallet_id: accountId,
           tx_hash: hash,
-          near_amount: selectedTier.near,
+          near_amount: selectedTier.nearAmount,
         }),
       })
       const data = await res.json()
