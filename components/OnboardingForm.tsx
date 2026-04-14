@@ -23,7 +23,7 @@ const TIERS = [
     price: '$200',
     near: '200 NEAR',
     nearAmount: '200000000000000000000000000',
-    leads: '100 leads/day - Email + X outreach',
+    leads: '100 leads/day - Email + X',
     days: '14 days',
     desc: '3 ICP variants A/B tested. Full sequence. Priority support.',
     featured: true,
