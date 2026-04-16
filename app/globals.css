@@ -2,15 +2,15 @@
 @import '@near-wallet-selector/modal-ui/styles.css';
 
 :root {
-  --bg:        #080808;
+  --bg:        #0D1117;
   --bg-card:   #0f0f0f;
   --bg-border: #1a1a1a;
   --green:     #00ec97;
   --green-dim: #00ec9730;
   --green-glow:#00ec9715;
   --text:      #f0f0f0;
-  --text-muted:#888;
-  --text-dim:  #444;
+  --text-muted:#8B949E;
+  --text-dim:  #666;
   --mono: 'JetBrains Mono', monospace;
   --sans: 'Sora', sans-serif;
   --radius: 4px;

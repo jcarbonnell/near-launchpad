@@ -256,7 +256,7 @@ export default function OnboardingForm() {
 
               <div className={styles.field}>
                 <label className={styles.label}>
-                  Contact list <span className="muted">(optional — Google contacts, mailbox data export... or custom)</span>
+                  Contact list <span className="muted">(optional — Google contacts, mailbox data...)</span>
                 </label>
                 <div
                   className={`${styles.csvDrop} ${csvFiles ? styles.csvDropFilled : ''}`}

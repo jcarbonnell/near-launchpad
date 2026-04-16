@@ -9,13 +9,13 @@ const STEPS = [
   },
   {
     num: '02',
-    title: 'Leads matched and merged',
+    title: 'Leads matched',
     body: 'The agent embeds your contacts alongside our base 177,000+ contacts. Then crafts personalized outreach sequences for your top ICP-matched leads.',
     detail: 'pgvector Ideal Customer Profile matching · ingest_raw.py · PostgreSQL',
   },
   {
     num: '03',
-    title: 'Go/no-go verdict delivered',
+    title: 'Go/no-go verdict',
     body: 'Every reply, click, and booking is logged. At the end of your campaign you receive a traction report with reply rate, positive signals, bookings, and a clear verdict, emailed directly to your inbox.',
     detail: 'OutLayer TEE · NEAR email · traction-report.sh',
   },
