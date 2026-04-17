@@ -23,9 +23,9 @@ const TIERS = [
     price: '$200',
     near: '200 NEAR',
     nearAmount: '200000000000000000000000000',
-    leads: '100 leads/day - Email + X',
+    leads: '100 leads/day',
     days: '14 days',
-    desc: '3 ICP variants A/B tested. Full sequence. Priority support.',
+    desc: '3 batches of outreach. ICP variants A/B tested. Email + X sequences. Priority support.',
     featured: true,
   },
   {
@@ -36,7 +36,7 @@ const TIERS = [
     nearAmount: null,
     leads: 'Unlimited',
     days: 'Monthly',
-    desc: 'Continuous Business Development. Enriched Email + X outreach + Social Media content automation. Payment channel.',
+    desc: 'Continuous Business Development. Enriched Email + X + Social Media. Payment channel.',
   },
 ]
 

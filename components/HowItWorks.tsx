@@ -5,19 +5,16 @@ const STEPS = [
     num: '01',
     title: 'Submit your repo',
     body: 'Paste your GitHub URL, your founder email, and a CSV of your own contacts (google contacts, mailbox data...)). The agent reads your README and defines your Ideal Customer Profile.',
-    detail: 'mvp-intake skill → Ollama nomic-embed-text',
   },
   {
     num: '02',
     title: 'Leads matched',
-    body: 'The agent embeds your contacts alongside our base 177,000+ contacts. Then crafts personalized outreach sequences for your top ICP-matched leads.',
-    detail: 'pgvector Ideal Customer Profile matching · ingest_raw.py · PostgreSQL',
+    body: 'The agent embeds your contacts alongside our base 177,000+ contacts. Then crafts personalized outreach sequences for your top ICP-matched leads.'
   },
   {
     num: '03',
     title: 'Go/no-go verdict',
     body: 'Every reply, click, and booking is logged. At the end of your campaign you receive a traction report with reply rate, positive signals, bookings, and a clear verdict, emailed directly to your inbox.',
-    detail: 'OutLayer TEE · NEAR email · traction-report.sh',
   },
 ]
 
@@ -41,7 +38,6 @@ export default function HowItWorks() {
               <div className={styles.stepContent}>
                 <h3 className={styles.stepTitle}>{step.title}</h3>
                 <p className={styles.stepBody}>{step.body}</p>
-                <span className={styles.stepDetail}>{step.detail}</span>
               </div>
               <div className={styles.stepLine} />
             </div>
