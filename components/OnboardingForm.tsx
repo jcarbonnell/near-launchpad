@@ -53,6 +53,8 @@ export default function OnboardingForm() {
   const [ref, setRef] = useState('')
   const [campaignId, setCampaignId] = useState<string | null>(null)
   const [txHash, setTxHash] = useState('')
+  const [contactForm, setContactForm] = useState({ name: '', email: '', message: '' })
+  const [contactSent, setContactSent] = useState(false)
 
   const selectedTier = TIERS.find(t => t.id === tier)!
 
@@ -311,69 +313,108 @@ export default function OnboardingForm() {
         {/* Step 3: Wallet + Pay */}
         {step === 'wallet' && (
           <div className={styles.formWrap}>
-            <div className={styles.paymentBox}>
-              <div className={styles.paymentRow}>
-                <span className={styles.paymentLabel}>Recipient</span>
-                <span className={`${styles.paymentValue} ${styles.mono}`}>near-launchpad.near</span>
-              </div>
-              <div className={styles.paymentRow}>
-                <span className={styles.paymentLabel}>Amount</span>
-                <span className={`${styles.paymentValue} ${styles.green}`}>{selectedTier.near}</span>
-              </div>
-              <div className={styles.paymentRow}>
-                <span className={styles.paymentLabel}>Repository</span>
-                <span className={styles.paymentValueSmall}>{form.github_url.replace('https://github.com/', '')}</span>
-              </div>
-              <div className={styles.paymentRow}>
-                <span className={styles.paymentLabel}>Report to</span>
-                <span className={styles.paymentValueSmall}>{form.founder_email}</span>
-              </div>
-            </div>
 
-            {!accountId ? (
+            {tier === 'determined' ? (
               <div className={styles.walletSection}>
-                <button className={styles.walletConnectBtn} onClick={connect} disabled={connecting}>
-                  {connecting ? 'Opening wallet...' : (
-                    <>
-                      <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                        <rect x="2" y="5" width="14" height="10" rx="1.5" stroke="currentColor" strokeWidth="1.4" fill="none"/>
-                        <circle cx="13" cy="10" r="1.5" fill="currentColor"/>
-                        <path d="M5 5V4a4 4 0 018 0v1" stroke="currentColor" strokeWidth="1.4" fill="none"/>
-                      </svg>
-                      Connect NEAR wallet
-                    </>
-                  )}
-                </button>
-                <p className={styles.noWallet}>
-                  No NEAR wallet yet?{' '}
-                  <a href="https://app.mynearwallet.com" target="_blank" rel="noopener">
-                    Create one at MyNearWallet →
-                  </a>
-                </p>
-              </div>
-            ) : (
-              <div className={styles.walletSection}>
-                <div className={styles.walletConnected}>
-                  <span className={styles.walletDot} />
-                  <span className={styles.mono}>{accountId}</span>
-                  <button type="button" className={styles.walletDisconnect} onClick={disconnect}>
-                    disconnect
-                  </button>
-                </div>
-                {error && <p className={styles.error}>{error}</p>}
-                {tier === 'determined' ? (
-                  <a
-                    href="mailto:near-launchpad@near.email?subject=Determined tier inquiry"
-                    className={styles.payBtn}
-                  >
-                    Contact us →
-                  </a>
+                {contactSent ? (
+                  <p className={styles.hint}>✓ Message sent — we will get back to you within 24 hours.</p>
                 ) : (
-                  <button className={styles.payBtn} onClick={handlePay} disabled={loading}>
-                    {loading ? 'Confirm in your wallet...' : `Pay ${selectedTier.near} and launch →`}
-                  </button>
+                  <form onSubmit={async e => {
+                    e.preventDefault()
+                    setLoading(true)
+                    await fetch('/api/intake', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({
+                        github_url: form.github_url || 'https://github.com/determined/inquiry',
+                        founder_email: contactForm.email,
+                        tier: 'determined',
+                        wallet_id: null,
+                        tx_hash: null,
+                        near_amount: null,
+                        message: contactForm.message,
+                        contact_name: contactForm.name,
+                      }),
+                    })
+                    setLoading(false)
+                    setContactSent(true)
+                  }}>
+                    <div className={styles.field}>
+                      <input className={styles.input} type="text" placeholder="Your name" required
+                        value={contactForm.name} onChange={e => setContactForm(f => ({ ...f, name: e.target.value }))} />
+                    </div>
+                    <div className={styles.field}>
+                      <input className={styles.input} type="email" placeholder="Your email" required
+                        value={contactForm.email} onChange={e => setContactForm(f => ({ ...f, email: e.target.value }))} />
+                    </div>
+                    <div className={styles.field}>
+                      <textarea className={styles.input} placeholder="Tell us about your project and what you need" rows={4} required
+                        value={contactForm.message} onChange={e => setContactForm(f => ({ ...f, message: e.target.value }))} />
+                    </div>
+                    <button type="submit" className={styles.payBtn} disabled={loading}>
+                      {loading ? 'Sending...' : 'Send message →'}
+                    </button>
+                  </form>
                 )}
               </div>
+            ) : (
+              <>
+                <div className={styles.paymentBox}>
+                  <div className={styles.paymentRow}>
+                    <span className={styles.paymentLabel}>Recipient</span>
+                    <span className={`${styles.paymentValue} ${styles.mono}`}>near-launchpad.near</span>
+                  </div>
+                  <div className={styles.paymentRow}>
+                    <span className={styles.paymentLabel}>Amount</span>
+                    <span className={`${styles.paymentValue} ${styles.green}`}>{selectedTier.near}</span>
+                  </div>
+                  <div className={styles.paymentRow}>
+                    <span className={styles.paymentLabel}>Repository</span>
+                    <span className={styles.paymentValueSmall}>{form.github_url.replace('https://github.com/', '')}</span>
+                  </div>
+                  <div className={styles.paymentRow}>
+                    <span className={styles.paymentLabel}>Report to</span>
+                    <span className={styles.paymentValueSmall}>{form.founder_email}</span>
+                  </div>
+                </div>
+
+                {!accountId ? (
+                  <div className={styles.walletSection}>
+                    <button className={styles.walletConnectBtn} onClick={connect} disabled={connecting}>
+                      {connecting ? 'Opening wallet...' : (
+                        <>
+                          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                            <rect x="2" y="5" width="14" height="10" rx="1.5" stroke="currentColor" strokeWidth="1.4" fill="none"/>
+                            <circle cx="13" cy="10" r="1.5" fill="currentColor"/>
+                            <path d="M5 5V4a4 4 0 018 0v1" stroke="currentColor" strokeWidth="1.4" fill="none"/>
+                          </svg>
+                          Connect NEAR wallet
+                        </>
+                      )}
+                    </button>
+                    <p className={styles.noWallet}>
+                      No NEAR wallet yet?{' '}
+                      <a href="https://app.mynearwallet.com" target="_blank" rel="noopener">
+                        Create one at MyNearWallet →
+                      </a>
+                    </p>
+                  </div>
+                ) : (
+                  <div className={styles.walletSection}>
+                    <div className={styles.walletConnected}>
+                      <span className={styles.walletDot} />
+                      <span className={styles.mono}>{accountId}</span>
+                      <button type="button" className={styles.walletDisconnect} onClick={disconnect}>
+                        disconnect
+                      </button>
+                    </div>
+                    {error && <p className={styles.error}>{error}</p>}
+                    <button className={styles.payBtn} onClick={handlePay} disabled={loading}>
+                      {loading ? 'Confirm in your wallet...' : `Pay ${selectedTier.near} and launch →`}
+                    </button>
+                  </div>
+                )}
+              </>
             )}
 
             <button type="button" className={styles.backBtn} onClick={() => setStep('details')}>← Back</button>
