@@ -322,22 +322,16 @@ export default function OnboardingForm() {
                   <form onSubmit={async e => {
                     e.preventDefault()
                     setLoading(true)
-                    await fetch('/api/intake', {
+                    const formData = new FormData(e.target as HTMLFormElement)
+                    formData.append('access_key', 'a4462a46-ca03-47a4-9e76-881bf0ae170f')
+                    const response = await fetch('https://api.web3forms.com/submit', {
                       method: 'POST',
-                      headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({
-                        github_url: form.github_url || 'https://github.com/determined/inquiry',
-                        founder_email: contactForm.email,
-                        tier: 'determined',
-                        wallet_id: null,
-                        tx_hash: null,
-                        near_amount: null,
-                        message: contactForm.message,
-                        contact_name: contactForm.name,
-                      }),
+                      body: formData,
                     })
+                    const data = await response.json()
                     setLoading(false)
-                    setContactSent(true)
+                    if (data.success) setContactSent(true)
+                    else setError('Something went wrong. Please email near-launchpad@near.email directly.')
                   }}>
                     <div className={styles.field}>
                       <input className={styles.input} type="text" placeholder="Your name" required
