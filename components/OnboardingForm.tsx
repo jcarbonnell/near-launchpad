@@ -507,7 +507,7 @@ export default function OnboardingForm() {
                     </div>
                     {error && <p className={styles.error}>{error}</p>}
                     <button className={styles.payBtn} onClick={handlePay} disabled={loading}>
-                      {loading ? 'Confirm in your wallet...' : `Pay ${selectedTier.near} and launch →`}
+                      {loading ? 'Confirm in your wallet...' : voucherValid ? 'Pay 0 NEAR and launch →' : `Pay ${selectedTier.near} and launch →`}
                     </button>
                   </div>
                 )}
