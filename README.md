@@ -42,7 +42,7 @@ At campaign end you receive a traction report by email: reply rate, positive sig
 |---|---|---|---|
 | **Curious** | 7 days | 1 ICP · 50 leads/day · email | $30 |
 | **Confident** | 14 days | 3 ICPs A/B · 100 leads/day · email + X | $200 |
-| **Determined** | Monthly | Continuous · unlimited · email + X + social | Contact us |
+| **Determined** | Custom | Monthly · unlimited · email + X + social | Contact us |
 
 Payment in NEAR — direct transfer to `near-launchpad.near`, on-chain receipt provided.
 
