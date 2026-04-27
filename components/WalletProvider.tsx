@@ -1,14 +1,11 @@
 'use client'
 
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react'
-
-// All wallet selector imports are dynamic to avoid SSR issues
-// Types only at module level
-type WalletSelector = import('@near-wallet-selector/core').WalletSelector
-type AccountState = import('@near-wallet-selector/core').AccountState
+import type { NearConnector, NearWalletBase } from '@hot-labs/near-connect'
 
 interface WalletContextValue {
-  selector: WalletSelector | null
+  connector: NearConnector | null
+  wallet: NearWalletBase | null
   accountId: string | null
   connecting: boolean
   connect: () => void
@@ -16,7 +13,8 @@ interface WalletContextValue {
 }
 
 const WalletContext = createContext<WalletContextValue>({
-  selector: null,
+  connector: null,
+  wallet: null,
   accountId: null,
   connecting: false,
   connect: () => {},
@@ -28,76 +26,65 @@ export function useWallet() {
 }
 
 export function WalletProvider({ children }: { children: ReactNode }) {
-  const [selector, setSelector] = useState<WalletSelector | null>(null)
+  const [connector, setConnector] = useState<NearConnector | null>(null)
+  const [wallet, setWallet] = useState<NearWalletBase | null>(null)
   const [accountId, setAccountId] = useState<string | null>(null)
   const [connecting, setConnecting] = useState(false)
-  const [modal, setModal] = useState<{ show: () => void } | null>(null)
 
   useEffect(() => {
-    // Dynamically import to avoid SSR
     async function init() {
-      const { setupWalletSelector } = await import('@near-wallet-selector/core')
-      const { setupModal } = await import('@near-wallet-selector/modal-ui')
-      const { setupMyNearWallet } = await import('@near-wallet-selector/my-near-wallet')
-      const { setupHereWallet } = await import('@near-wallet-selector/here-wallet')
-      const { setupHotWallet } = await import('@near-wallet-selector/hot-wallet')
+      const { NearConnector } = await import('@hot-labs/near-connect')
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const modules: any[] = [
-        setupMyNearWallet(),
-        setupHereWallet(),
-        setupHotWallet(),
-      ]
+      const _connector = new NearConnector({ network: 'mainnet' })
 
-      const _selector = await setupWalletSelector({
-        network: 'mainnet',
-        modules,
-      })
-
-      const _modal = setupModal(_selector, {
-        contractId: 'near-launchpad.near',
-      })
-
-      // Restore account from state
-      const state = _selector.store.getState()
-      const accounts: AccountState[] = state.accounts
-      if (accounts.length > 0) {
-        setAccountId(accounts[0].accountId)
+      // Restore existing session
+      try {
+        const _wallet = await _connector.wallet()
+        const accounts = await _wallet.getAccounts()
+        if (accounts.length > 0) {
+          setWallet(_wallet)
+          setAccountId(accounts[0].accountId)
+        }
+      } catch {
+        // Not signed in — expected
       }
 
-      // Subscribe to account changes
-      _selector.store.observable.subscribe((state: { accounts: AccountState[] }) => {
-        const accounts = state.accounts
+      _connector.on('wallet:signIn', async ({ accounts }: { accounts: { accountId: string }[] }) => {
         if (accounts.length > 0) {
+          const _wallet = await _connector.wallet()
+          setWallet(_wallet)
           setAccountId(accounts[0].accountId)
-        } else {
-          setAccountId(null)
         }
         setConnecting(false)
       })
 
-      setSelector(_selector)
-      setModal(_modal)
+      _connector.on('wallet:signOut', () => {
+        setWallet(null)
+        setAccountId(null)
+        setConnecting(false)
+      })
+
+      setConnector(_connector)
     }
 
     init().catch(console.error)
   }, [])
 
   function connect() {
-    if (!modal) return
+    if (!connector) return
     setConnecting(true)
-    modal.show()
+    connector.connect().catch(() => setConnecting(false))
   }
 
   async function disconnect() {
-    if (!selector) return
-    const wallet = await selector.wallet()
-    await wallet.signOut()
+    if (!connector) return
+    await connector.disconnect()
+    setWallet(null)
     setAccountId(null)
   }
 
   return (
-    <WalletContext.Provider value={{ selector, accountId, connecting, connect, disconnect }}>
+    <WalletContext.Provider value={{ connector, wallet, accountId, connecting, connect, disconnect }}>
       {children}
     </WalletContext.Provider>
   )

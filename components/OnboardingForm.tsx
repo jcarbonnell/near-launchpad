@@ -43,7 +43,7 @@ const TIERS = [
 type Step = 'tier' | 'details' | 'wallet' | 'success'
 
 export default function OnboardingForm() {
-  const { accountId, connecting, connect, disconnect, selector } = useWallet()
+  const { accountId, connecting, connect, disconnect, wallet } = useWallet()
   const [step, setStep] = useState<Step>('tier')
   const [tier, setTier] = useState('confident')
   const [form, setForm] = useState({ github_url: '', founder_email: '' })
@@ -71,7 +71,7 @@ export default function OnboardingForm() {
   }
 
   async function handlePay() {
-    if (!selector || !accountId) return
+    if (!wallet || !accountId) return
     if (tier === 'determined') {
       window.location.href = 'mailto:near-launchpad@near.email?subject=Determined Plan Inquiry'
       return
@@ -79,8 +79,7 @@ export default function OnboardingForm() {
     setLoading(true)
     setError('')
     try {
-      const wallet = await selector.wallet()
-      const outcome = await wallet.signAndSendTransaction({
+      const outcome = await wallet!.signAndSendTransaction({
         receiverId: 'near-launchpad.near',
         actions: [
           actionCreators.transfer(BigInt(selectedTier.nearAmount!))

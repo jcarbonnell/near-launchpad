@@ -9,11 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@near-wallet-selector/core": "^10.1.4",
-    "@near-wallet-selector/hot-wallet": "^10.1.4",
-    "@near-wallet-selector/here-wallet": "^10.1.4",
-    "@near-wallet-selector/modal-ui": "^10.1.4",
-    "@near-wallet-selector/my-near-wallet": "^10.1.4",
+    "@hot-labs/near-connect":"^0.11.1",
     "@near-js/transactions": "^2.5.1",
     "near-api-js": "^5.1.1",
     "framer-motion": "^11.3.0",
