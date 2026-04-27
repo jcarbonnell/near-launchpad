@@ -64,6 +64,10 @@ Payment in NEAR — direct transfer to `near-launchpad.near`, on-chain receipt p
 
 **Traction report** — Go/no-go verdict with full signal breakdown emailed to you at campaign end. Objective signal, not gut feel.
 
+**Confirmation email** — Founders receive an automated email from near-launchpad@near.email as soon as their campaign is created, with a summary and tracking link.
+
+**Voucher codes** — Beta testers receive single-use codes that set the payment to 1 yoctoNEAR (free). Codes are validated server-side against PostgreSQL — not hardcoded in the frontend.
+
 **Sovereign infrastructure** — Everything runs on dedicated hardware (Raspberry Pi 5, 320GB). No cloud vendor can change pricing, deprecate an API, or read your data.
 
 ---
@@ -77,7 +81,7 @@ Payment settlement without a payment processor. No chargebacks, no lock-in, no m
 ## Built With
 
 - **Frontend**: Next.js 14 App Router · TypeScript · CSS Modules · Vercel
-- **Backend**: [IronClaw v0.24](https://github.com/nearai/ironclaw) sovereign node · Raspberry Pi 5 · PostgreSQL 17 + pgvector
+- **Backend**: [IronClaw v0.25](https://github.com/nearai/ironclaw) sovereign node · Raspberry Pi 5 · PostgreSQL 17 + pgvector
 - **AI**: Claude Sonnet via NEAR AI Cloud · Ollama `nomic-embed-text` (local embeddings)
 - **Outreach**: OutLayer TEE · near.email · X API v2
 - **Enrichment**: Hunter.io · SearXNG (self-hosted)
@@ -89,6 +93,8 @@ Payment settlement without a payment processor. No chargebacks, no lock-in, no m
 
 | Version | Date | What shipped |
 |---|---|---|
+| v0.4 | 2026-04-27 | Voucher codes for beta testers · founder confirmation email · Determined tier contact form |
+| v0.3 | 2026-04-10 | Live campaign dashboard · multi-campaign localStorage persistence |
 | v0.3 | 2026-04-10 | Live campaign dashboard · multi-campaign localStorage persistence |
 | v0.2 | 2026-04-09 | NEAR Wallet Selector · real payment flow · 4-step onboarding UX |
 | v0.1 | 2026-04-01 | Onboarding form · Cloudflare Tunnel · Pi webhook · first live intake |
