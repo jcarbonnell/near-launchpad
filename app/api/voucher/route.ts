@@ -5,7 +5,8 @@ export async function POST(req: NextRequest) {
     const { code } = await req.json()
     if (!code) return NextResponse.json({ valid: false, error: 'No code provided' })
 
-    const res = await fetch(`${process.env.WEBHOOK_URL?.replace('/intake', '')}/voucher`, {
+    const webhookBase = (process.env.WEBHOOK_URL || '').replace(/\/intake\/?$/, '')
+    const res = await fetch(`${webhookBase}/voucher`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ code: code.trim().toUpperCase() }),
