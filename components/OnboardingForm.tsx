@@ -334,15 +334,15 @@ export default function OnboardingForm() {
                     else setError('Something went wrong. Please email near-launchpad@near.email directly.')
                   }}>
                     <div className={styles.field}>
-                      <input className={styles.input} type="text" placeholder="Your name" required
+                      <input className={styles.input} type="text" name="name" placeholder="Your name" required
                         value={contactForm.name} onChange={e => setContactForm(f => ({ ...f, name: e.target.value }))} />
                     </div>
                     <div className={styles.field}>
-                      <input className={styles.input} type="email" placeholder="Your email" required
+                      <input className={styles.input} type="email" name="email" placeholder="Your email" required
                         value={contactForm.email} onChange={e => setContactForm(f => ({ ...f, email: e.target.value }))} />
                     </div>
                     <div className={styles.field}>
-                      <textarea className={styles.input} placeholder="Tell us about your project and what you need" rows={4} required
+                      <textarea className={styles.input} name="message" placeholder="Tell us about your project and what you need" rows={4} required
                         value={contactForm.message} onChange={e => setContactForm(f => ({ ...f, message: e.target.value }))} />
                     </div>
                     <button type="submit" className={styles.payBtn} disabled={loading}>
