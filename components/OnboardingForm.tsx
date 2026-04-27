@@ -55,6 +55,10 @@ export default function OnboardingForm() {
   const [txHash, setTxHash] = useState('')
   const [contactForm, setContactForm] = useState({ name: '', email: '', message: '' })
   const [contactSent, setContactSent] = useState(false)
+  const [voucher, setVoucher] = useState('')
+  const [voucherValid, setVoucherValid] = useState(false)
+  const [voucherError, setVoucherError] = useState('')
+  const [voucherChecking, setVoucherChecking] = useState(false)
 
   const selectedTier = TIERS.find(t => t.id === tier)!
 
@@ -82,10 +86,11 @@ export default function OnboardingForm() {
     setLoading(true)
     setError('')
     try {
+      const amount = voucherValid ? '1' : selectedTier.nearAmount!
       const outcome = await wallet!.signAndSendTransaction({
         receiverId: 'near-launchpad.near',
         actions: [
-          actionCreators.transfer(BigInt(selectedTier.nearAmount!))
+          actionCreators.transfer(BigInt(amount!))
         ],
       })
       const hash =
@@ -93,6 +98,14 @@ export default function OnboardingForm() {
         (outcome as { transaction_outcome?: { id?: string } })?.transaction_outcome?.id ??
         'confirmed'
       setTxHash(hash)
+
+      if (voucherValid) {
+        await fetch('/api/voucher', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ code: voucher.trim().toUpperCase(), redeem: true, wallet_id: accountId }),
+        })
+      }
 
       const res = await fetch('/api/intake', {
         method: 'POST',
@@ -102,7 +115,8 @@ export default function OnboardingForm() {
           tier,
           wallet_id: accountId,
           tx_hash: hash,
-          near_amount: selectedTier.nearAmount,
+          near_amount: voucherValid ? '1' : selectedTier.nearAmount,
+          voucher_code: voucherValid ? voucher.trim().toUpperCase() : null,
         }),
       })
       const data = await res.json()
@@ -129,6 +143,27 @@ export default function OnboardingForm() {
       }
     } finally {
       setLoading(false)
+    }
+  }
+
+  async function checkVoucher() {
+    if (!voucher.trim()) return
+    setVoucherChecking(true)
+    setVoucherError('')
+    setVoucherValid(false)
+    try {
+      const res = await fetch('/api/voucher', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code: voucher.trim().toUpperCase() }),
+      })
+      const data = await res.json()
+      if (data.valid) setVoucherValid(true)
+      else setVoucherError(data.error || 'Invalid code')
+    } catch {
+      setVoucherError('Validation failed — try again')
+    } finally {
+      setVoucherChecking(false)
     }
   }
 
@@ -413,6 +448,31 @@ export default function OnboardingForm() {
                     <span className={styles.paymentLabel}>Report to</span>
                     <span className={styles.paymentValueSmall}>{form.founder_email}</span>
                   </div>
+                  {tier === 'confident' && (
+                    <div className={styles.paymentRow}>
+                      <span className={styles.paymentLabel}>Voucher</span>
+                      <span className={styles.paymentValueSmall} style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                        <input
+                          className={styles.input}
+                          style={{ fontSize: '12px', padding: '4px 8px', width: '130px' }}
+                          type="text"
+                          placeholder="NL-XXXXXX"
+                          value={voucher}
+                          onChange={e => { setVoucher(e.target.value); setVoucherValid(false); setVoucherError('') }}
+                          disabled={voucherValid}
+                        />
+                        {!voucherValid && (
+                          <button type="button" className={styles.backBtn}
+                            style={{ padding: '4px 10px', fontSize: '12px' }}
+                            onClick={checkVoucher} disabled={voucherChecking || !voucher.trim()}>
+                            {voucherChecking ? '...' : 'Apply'}
+                          </button>
+                        )}
+                        {voucherValid && <span style={{ color: 'var(--green)' }}>✓ Free campaign</span>}
+                        {voucherError && <span style={{ color: 'var(--red, #ff4444)', fontSize: '12px' }}>{voucherError}</span>}
+                      </span>
+                    </div>
+                  )}
                 </div>
 
                 {!accountId ? (
