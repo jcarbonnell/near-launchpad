@@ -72,10 +72,6 @@ export default function OnboardingForm() {
 
   async function handlePay() {
     if (!wallet || !accountId) return
-    if (tier === 'determined') {
-      window.location.href = 'mailto:near-launchpad@near.email?subject=Determined Plan Inquiry'
-      return
-    }
     setLoading(true)
     setError('')
     try {
@@ -365,9 +361,18 @@ export default function OnboardingForm() {
                   </button>
                 </div>
                 {error && <p className={styles.error}>{error}</p>}
-                <button className={styles.payBtn} onClick={handlePay} disabled={loading}>
-                  {loading ? 'Confirm in your wallet...' : `Pay ${selectedTier.near} and launch →`}
-                </button>
+                {tier === 'determined' ? (
+                  <a
+                    href="mailto:near-launchpad@near.email?subject=Determined tier inquiry"
+                    className={styles.payBtn}
+                  >
+                    Contact us →
+                  </a>
+                ) : (
+                  <button className={styles.payBtn} onClick={handlePay} disabled={loading}>
+                    {loading ? 'Confirm in your wallet...' : `Pay ${selectedTier.near} and launch →`}
+                  </button>
+                )}
               </div>
             )}
 
