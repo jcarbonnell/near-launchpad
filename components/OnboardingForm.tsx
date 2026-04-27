@@ -72,6 +72,11 @@ export default function OnboardingForm() {
     setStep('wallet')
   }
 
+  function handleDeterminedClick() {
+    setTier('determined')
+    setStep('details')
+  }
+
   async function handlePay() {
     if (!wallet || !accountId) return
     setLoading(true)
@@ -208,14 +213,52 @@ export default function OnboardingForm() {
               ))}
             </div>
 
-              <button className={styles.nextBtn} onClick={() => setStep('details')}>
-                Continue with {selectedTier.name} →
+              <button className={styles.nextBtn} onClick={() => tier === 'determined' ? handleDeterminedClick() : setStep('details')}>
+                {tier === 'determined' ? 'Contact us →' : `Continue with ${selectedTier.name} →`}
               </button>
             </div>
           )}
 
           {/* Step 2: Details */}
-          {step === 'details' && (
+          {step === 'details' && tier === 'determined' && (
+            <div className={styles.formWrap}>
+              {contactSent ? (
+                <p className={styles.hint}>✓ Message sent — we will get back to you within 24 hours.</p>
+              ) : (
+                <form className={styles.form} onSubmit={async e => {
+                  e.preventDefault()
+                  setLoading(true)
+                  const formData = new FormData(e.target as HTMLFormElement)
+                  formData.append('access_key', 'a4462a46-ca03-47a4-9e76-881bf0ae170f')
+                  const response = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: formData })
+                  const data = await response.json()
+                  setLoading(false)
+                  if (data.success) setContactSent(true)
+                  else setError('Something went wrong. Please email near-launchpad@near.email directly.')
+                }}>
+                  <div className={styles.field}>
+                    <input className={styles.input} type="text" name="name" placeholder="Your name" required
+                      value={contactForm.name} onChange={e => setContactForm(f => ({ ...f, name: e.target.value }))} />
+                  </div>
+                  <div className={styles.field}>
+                    <input className={styles.input} type="email" name="email" placeholder="Your email" required
+                      value={contactForm.email} onChange={e => setContactForm(f => ({ ...f, email: e.target.value }))} />
+                  </div>
+                  <div className={styles.field}>
+                    <textarea className={styles.input} name="message" placeholder="Tell us about your project and what you need" rows={4} required
+                      value={contactForm.message} onChange={e => setContactForm(f => ({ ...f, message: e.target.value }))} />
+                  </div>
+                  {error && <p className={styles.error}>{error}</p>}
+                  <button type="submit" className={styles.nextBtn} disabled={loading}>
+                    {loading ? 'Sending...' : 'Send message →'}
+                  </button>
+                  <button type="button" className={styles.backBtn} onClick={() => setStep('tier')}>← Back</button>
+                </form>
+              )}
+            </div>
+          )}
+
+          {step === 'details' && tier !== 'determined' && (
             <div className={styles.formWrap}>
             <form className={styles.form} onSubmit={handleDetailsNext}>
               <div className={styles.field}>
