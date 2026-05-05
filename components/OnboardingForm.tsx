@@ -124,6 +124,20 @@ export default function OnboardingForm() {
       setRef(data.ref)
       const cid = data.campaign_id || null
       setCampaignId(cid)
+
+      // Confirm payment — verifies tx on NEAR RPC, activates campaign, generates invoice
+      if (cid && hash && hash !== 'confirmed') {
+        fetch('/api/confirm-payment', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            campaign_id: cid,
+            tx_hash: hash,
+            wallet_id: accountId,
+          }),
+        }).catch(() => {}) // fire-and-forget — Pi handles async
+      }
+
       if (cid) {
         saveCampaign({
           campaign_id: cid,
