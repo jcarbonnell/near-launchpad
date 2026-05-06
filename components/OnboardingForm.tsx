@@ -4,7 +4,6 @@ import { useWallet } from './WalletProvider'
 import styles from './OnboardingForm.module.css'
 import CampaignStatus from './CampaignStatus'
 import { saveCampaign } from './CampaignList'
-import { actionCreators } from '@near-js/transactions'
 
 const TIERS = [
   {
@@ -90,7 +89,10 @@ export default function OnboardingForm() {
       const outcome = await wallet!.signAndSendTransaction({
         receiverId: 'near-launchpad.near',
         actions: [
-          actionCreators.transfer(BigInt(amount!))
+          {
+            type: 'Transfer',
+            params: { deposit: amount },
+          },
         ],
       })
       const hash =
@@ -504,10 +506,10 @@ export default function OnboardingForm() {
                       )}
                     </button>
                     <p className={styles.noWallet}>
-                      No NEAR wallet yet?{' '}
-                      <a href="https://app.mynearwallet.com" target="_blank" rel="noopener">
-                        Create one at MyNearWallet →
-                      </a>
+                      No NEAR account yet?{' '}
+                      <span className="muted">
+                        The wallet selector lets you create one in seconds.
+                      </span>
                     </p>
                   </div>
                 ) : (

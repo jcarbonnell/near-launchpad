@@ -76,7 +76,7 @@ export default function CampaignStatus({ campaignId }: { campaignId: string }) {
       setLastUpdated(new Date())
       setError('')
     } catch {
-      setError('Connection error — retrying')
+      setError('Waiting for campaign data...')
     } finally {
       setLoading(false)
     }
